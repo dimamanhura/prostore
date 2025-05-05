@@ -29,3 +29,31 @@ export const formatErrors = (error: any) => {
     return typeof error.message === 'string' ? error.message : JSON.stringify(error.message);
   }
 };
+
+export const round2 = (value: number | string) => {
+  if (typeof value === 'number') {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  } else if (typeof value === 'string') {
+    return Math.round((Number(value) + Number.EPSILON) * 100) / 100; 
+  } else {
+    throw new Error('Value is not a number or string');
+  }
+};
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat('eu-US', {
+  currency: 'USD',
+  style: 'currency',
+  minimumFractionDigits: 2,
+});
+
+export const formatCurrency = (amount: string | number | null) => {
+  if (typeof amount === 'number') {
+    return CURRENCY_FORMATTER.format(amount);
+  }
+
+  if (typeof amount === 'string') {
+    return CURRENCY_FORMATTER.format(Number(amount));
+  }
+
+  return 'NaN';
+};
