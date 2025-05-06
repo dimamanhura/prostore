@@ -57,3 +57,7 @@ export const formatCurrency = (amount: string | number | null) => {
 
   return 'NaN';
 };
+
+export const formatId = (id: string) => {
+  return `..${id.substring(id.length - 6)}`;
+};

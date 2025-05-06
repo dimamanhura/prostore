@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Order" ALTER COLUMN "paidAt" DROP DEFAULT,
+ALTER COLUMN "deliveredAt" DROP DEFAULT;
