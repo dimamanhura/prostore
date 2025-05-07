@@ -48,17 +48,31 @@ const UserButton = async () => {
             </div>
           </DropdownMenuLabel>
 
-          <DropdownMenuItem className='px-2 mb-1'>
-            <Link href={'/user/profile'} className='w-full'>
-              User Profile
-            </Link>
+          <DropdownMenuItem>
+            <Button className='w-full py-4 px-2 h-4 justify-start' variant={'ghost'} asChild>
+              <Link href={'/user/profile'} className='w-full'>
+                User Profile
+              </Link>
+            </Button>
           </DropdownMenuItem>
 
-          <DropdownMenuItem className='px-2 mb-1'>
-            <Link href={'/user/orders'} className='w-full'>
-              Order History
-            </Link>
+          <DropdownMenuItem>
+            <Button className='w-full py-4 px-2 h-4 justify-start' variant={'ghost'} asChild>
+              <Link href={'/user/orders'} className='w-full'>
+                Order History
+              </Link>
+            </Button>
           </DropdownMenuItem>
+
+          {session.user?.role === 'admin' && (
+            <DropdownMenuItem>
+              <Button className='w-full py-4 px-2 h-4 justify-start' variant={'ghost'} asChild>
+                <Link href={'/admin/overview'} className='w-full'>
+                  Admin
+                </Link>
+              </Button>
+            </DropdownMenuItem>
+          )}
           
           <DropdownMenuItem className='p-0 mb-1'>
             <form action={signOutUser} className='w-full'>
