@@ -63,6 +63,8 @@ const OrderDetailsTable = ({ order, paypalClientId }: OrderDetailsTableProps) =>
     }
   };
 
+  console.log('paidAt', paidAt);
+
   return (
     <>
       <h1 className="py-4 text-2xl">Order {formatId(id)}</h1>
@@ -73,9 +75,9 @@ const OrderDetailsTable = ({ order, paypalClientId }: OrderDetailsTableProps) =>
             <CardContent className="px-4 gap-4">
               <h2 className="text-xl pb-2">Payment Method</h2>
               <p className="mb-2">{paymentMethod}</p>
-              { isPaid ? (
+              { isPaid && paidAt ? (
                 <Badge variant={'secondary'}>
-                  Paid at {paidAt?.toLocaleDateString()}
+                  Paid at {new Date(paidAt)?.toISOString()}
                 </Badge>
               ) : (
                 <Badge variant={'destructive'}>
@@ -91,9 +93,9 @@ const OrderDetailsTable = ({ order, paypalClientId }: OrderDetailsTableProps) =>
               <p>{shippingAddress.fullName}</p>
               <p>{shippingAddress.streetAddress}, {shippingAddress.city}</p>
               <p className="mb-2">{shippingAddress.postalCode}, {shippingAddress.country}</p>
-              { isDelivered ? (
+              { isDelivered && deliveredAt ? (
                 <Badge variant={'secondary'}>
-                  Delivered at {deliveredAt?.toLocaleDateString()}
+                  Delivered at {new Date(deliveredAt)?.toISOString()}
                 </Badge>
               ) : (
                 <Badge variant={'destructive'}>
