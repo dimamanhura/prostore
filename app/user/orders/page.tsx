@@ -1,3 +1,4 @@
+import Pagination from "@/components/pagination";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getMyOrders } from "@/lib/actions/order.action";
 import { formatCurrency, formatId } from "@/lib/utils";
@@ -59,6 +60,12 @@ const OrdersPage = async (props: { searchParams: Promise<{ page: string }> }) =>
             ))}
           </TableBody>
         </Table>
+
+        {
+          orders.totalPages >= 1 && (
+            <Pagination page={Number(page) || 1} totalPages={orders.totalPages} />
+          )
+        }
       </div>
     </div>
   );
