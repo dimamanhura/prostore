@@ -10,6 +10,7 @@ import { formatErrors } from '../utils';
 import { ShippingAddress } from '@/types';
 import { PAGE_SIZE } from '../constants';
 import { revalidatePath } from 'next/cache';
+import { Prisma } from '@prisma/client';
 
 export async function signInWithCredentials(prevState: unknown, formDate: FormData) {
   try {
@@ -194,13 +195,23 @@ export async function updateProfile(user: { name: string, email: string }) {
 };
 
 export async function getAllUsers({ 
+  query,
   limit = PAGE_SIZE,
   page,
 }: {
+  query: string;
   limit?: number;
   page: number;
 }) {
+  const queryFilter: Prisma.UserWhereInput = query && query !== 'all' ? {
+    name: {
+      contains: query,
+      mode: 'insensitive' 
+    }
+  }: {};
+
   const data = await prisma.user.findMany({
+    where: { ...queryFilter },
     orderBy: {
       createdAt: "desc",
     },
@@ -208,7 +219,9 @@ export async function getAllUsers({
     skip: (page - 1) * limit,
   });
 
-  const dataCount = await prisma.user.count();
+  const dataCount = await prisma.user.count({
+    where: { ...queryFilter },
+  });
 
   return {
     data,

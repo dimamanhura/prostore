@@ -12,15 +12,28 @@ export const metadata: Metadata = {
   title: 'Admin Orders',
 };
 
-const AdminOrdersPage = async (props: { searchParams: Promise<{ page: string }> }) => {
+const AdminOrdersPage = async (props: { searchParams: Promise<{ query: string, page: string }> }) => {
   await requiredAdmin();
 
-  const { page } = await props.searchParams;
-  const orders = await getAllOrders({ page: Number(page) || 1 });
+  const { query, page } = await props.searchParams;
+  const orders = await getAllOrders({
+    query: query || '',
+    page: Number(page) || 1,
+  });
 
   return (
     <div className="space-y-2 ">
-      <h2 className="h2-bold">Orders</h2>
+      <div className="flex items-center gap-3">
+        <h1 className="h2-bold">Orders</h1>
+        {query && (
+          <div>
+            Filtered by <i>&quot;{query}&quot;</i>{' '}
+            <Link href={'/admin//orders'}>
+              <Button variant={'outline'} size={'sm'}>Remove Filter</Button>
+            </Link>
+          </div>
+        )}
+      </div>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -30,6 +43,7 @@ const AdminOrdersPage = async (props: { searchParams: Promise<{ page: string }> 
               <TableHead>TOTAL</TableHead>
               <TableHead>PAID</TableHead>
               <TableHead>DELIVERED</TableHead>
+              <TableHead>BAYER</TableHead>
               <TableHead>ACTIONS</TableHead>
             </TableRow>
           </TableHeader>
@@ -54,6 +68,10 @@ const AdminOrdersPage = async (props: { searchParams: Promise<{ page: string }> 
 
                 <TableCell>
                   {order.isDelivered && order.deliveredAt ? order.deliveredAt.toISOString() : 'Not delivered'}
+                </TableCell>
+
+                <TableCell>
+                  {order.user.name}
                 </TableCell>
 
                 <TableCell>

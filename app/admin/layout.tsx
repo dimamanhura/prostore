@@ -1,6 +1,6 @@
 import AdminNav from "@/components/admin-nav";
+import AdminSearch from "@/components/admin/admin-search";
 import Menu from "@/components/shared/header/menu";
-import { Input } from "@/components/ui/input";
 import { APP_NAME } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,9 +27,7 @@ export default function AdminLayout({
             <AdminNav className="mx-6" />
 
             <div className="ml-auto items-center flex space-x-4">
-              <div>
-                <Input type="search" placeholder="Search..." className="md:width-[100px] lg:width-[300px]" />
-              </div>
+              <AdminSearch />
               <Menu />
             </div>
           </div>
