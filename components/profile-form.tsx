@@ -14,8 +14,6 @@ import { useSession } from "next-auth/react";
 const ProfileForm = () => {
   const { data: session, update } = useSession();
 
-  console.log('session', session)
-
   const form = useForm<z.infer<typeof updateProfileSchema>>({
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
