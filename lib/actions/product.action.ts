@@ -148,3 +148,12 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
     };
   }
 };
+
+export async function getAllCategories() {
+  const data = await prisma.product.groupBy({
+    by: ['category'],
+    _count: true,
+  });
+
+  return data;
+};
