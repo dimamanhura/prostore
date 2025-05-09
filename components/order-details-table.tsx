@@ -18,7 +18,7 @@ interface OrderDetailsTableProps {
   stripeClientSecret: string | null;
   paypalClientId: string;
   isAdmin: boolean;
-  order: Order;
+  order: Omit<Order, 'paymentResult'>;
 };
 
 const OrderDetailsTable = ({ order, isAdmin, paypalClientId, stripeClientSecret }: OrderDetailsTableProps) => {
