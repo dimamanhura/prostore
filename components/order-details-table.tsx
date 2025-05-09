@@ -12,14 +12,16 @@ import { approvePaypalOrder, createPayPalOrder, updateOrderToPaidCOD, deliverOrd
 import { toast } from "sonner";
 import { useTransition } from "react";
 import { Button } from "./ui/button";
+import StripePayment from "./stripe-payment";
 
 interface OrderDetailsTableProps {
+  stripeClientSecret: string | null;
   paypalClientId: string;
   isAdmin: boolean;
   order: Order;
 };
 
-const OrderDetailsTable = ({ order, isAdmin, paypalClientId }: OrderDetailsTableProps) => {
+const OrderDetailsTable = ({ order, isAdmin, paypalClientId, stripeClientSecret }: OrderDetailsTableProps) => {
   const {
     id,
     shippingAddress,
@@ -217,6 +219,15 @@ const OrderDetailsTable = ({ order, isAdmin, paypalClientId }: OrderDetailsTable
                     />
                   </PayPalScriptProvider>
                 </div>
+              )}
+
+              {/* Stripe Payment */}
+              {!isPaid && paymentMethod === 'Stripe' && stripeClientSecret && (
+                <StripePayment
+                  priceInCents={Number(order.totalPrice) * 100}
+                  orderId={order.id}
+                  clientSecret={stripeClientSecret}
+                />
               )}
 
               {/* Cash On Delivery */}
